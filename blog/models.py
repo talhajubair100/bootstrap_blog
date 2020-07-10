@@ -18,7 +18,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to='blog')
     date = models.DateTimeField(auto_now_add=True)
     body = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)

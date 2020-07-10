@@ -4,4 +4,4 @@ from blog.models import Post
 def home(request):
     posts = Post.objects.order_by('-id')
     context = {'posts': posts}
-    return render(request, 'post_list.html', context)
+    return render(request, 'blog/post_list.html', context)

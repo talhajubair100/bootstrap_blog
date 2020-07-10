@@ -35,7 +35,7 @@
             <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="{% url 'product-list' %}">Product</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Services</a>
@@ -63,18 +63,21 @@
         <div class="card my-4">
           <h5 class="card-header">Search</h5>
           <div class="card-body">
+            <form action="/blog/search" method="POST">
+              {% csrf_token %}
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for...">
+              <input type="text" class="form-control" name="search_keyword" id="s" type="submit" placeholder="Search for...">
               <span class="input-group-append">
-                <button class="btn btn-secondary" type="button">Go!</button>
+                <button class="btn btn-secondary" id="s" type="submit" type="button">Go!</button>
               </span>
             </div>
+          </form>
           </div>
         </div>
 
-        <!-- Categories Widget -->
+        <!-- Categories Widget For Blog -->
         <div class="card my-4">
-          <h5 class="card-header">Categories</h5>
+          <h5 class="card-header">Blog Categories</h5>
           <div class="card-body">
             <div class="row">
               <div class="col-lg-6">
@@ -84,6 +87,28 @@
                   
                   <li>
                     <a href="{% url 'category-post' ctg.name %}">{{ ctg.name }}</a>
+                  </li>
+                {% endfor %} 
+                
+                </ul>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+         <!-- Categories Widget For Products -->
+         <div class="card my-4">
+          <h5 class="card-header">Product Categories</h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+
+                <ul class="list-unstyled mb-0">
+                {% for product_ctg  in p_ctg %}
+                  
+                  <li>
+                    <a href="#">{{ product_ctg.name }}</a>
                   </li>
                 {% endfor %} 
                 
