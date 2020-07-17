@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . models import Post, Category, Profile
+from .forms import CreateCategory, PostForm
 # Create your views here.
 
 def search_post(request):
@@ -20,3 +21,25 @@ def category_post(request, ctg_name):
     post_list = Post.objects.filter(category=ctg_obj)
     context = {'posts': post_list, 'ctg_name': ctg_name}
     return render(request, 'blog/post_by_ctg.html', context)
+
+def create_category(request):
+    form = CreateCategory()
+    if request.method == "POST":
+        form = CreateCategory(request.POST)
+        if form.is_valid():
+            ctg = form.cleaned_data["name"]
+
+            create_obj = Category.objects.create(name=ctg)
+            return redirect('/')
+    context = {'forms': form}
+    return render(request, 'blog/create_ctg.html', context)
+
+def create_post(request):
+    froms = PostForm()
+    if request.method == "POST":
+        froms = PostForm(request.POST, request.FILES)
+        if froms.is_valid():
+            froms.save()
+            return redirect('/')
+    context = {'froms': froms}
+    return render(request, 'blog/create_post.html', context)

@@ -15,14 +15,12 @@
     <img
       class="card-img-top img-fluid"
       src="{{ post.photo.url }}"
-      alt="Card image cap"
-    />
+      alt="Card image cap"/>
     <div class="card-body">
       <h2 class="card-title">{{ post.title }}</h2>
       <p class="card-text">{{ post.body }}</p>
       <a href="{% url 'detail-post' post.id %}" class="btn btn-primary"
-        >Read More &rarr;</a
-      >
+        >Read More &rarr;</a>
     </div>
     <div class="card-footer text-muted">
       {{ post.date }}

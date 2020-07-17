@@ -2,170 +2,194 @@
 
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-<head>
+    <title>Blog Home - Start Bootstrap Template</title>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link
+      href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
 
-  <title>Blog Home - Start Bootstrap Template</title>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/blog-home.css' %}" rel="stylesheet" />
+  </head>
 
-  <!-- Bootstrap core CSS -->
-  <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'product-list' %}">Product</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Cretae
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'create-post' %}">Create Blog</a>
+                <a class="dropdown-item" href="{% url 'create-category' %}">Create Category</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
 
-  <!-- Custom styles for this template -->
-  <link href="{% static 'css/blog-home.css' %}" rel="stylesheet">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-</head>
-
-<body>
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="/">Start Bootstrap</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'product-list' %}">Product</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
+      <div class="row">
+        {% block content %} {% endblock %}
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+          <!-- Search Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Search</h5>
+            <div class="card-body">
+              <form action="/blog/search" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="search_keyword"
+                    id="s"
+                    type="submit"
+                    placeholder="Search for..."
+                  />
+                  <span class="input-group-append">
+                    <button
+                      class="btn btn-secondary"
+                      id="s"
+                      type="submit"
+                      type="button"
+                    >
+                      Go!
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Categories Widget For Blog -->
+          <div class="card my-4">
+            <h5 class="card-header">Blog Categories</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    {% for ctg in categories %}
+
+                    <li>
+                      <a href="{% url 'category-post' ctg.name %}"
+                        >{{ ctg.name }}</a
+                      >
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories Widget For Products -->
+          <div class="card my-4">
+            <h5 class="card-header">Product Categories</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    {% for product_ctg in p_ctg %}
+
+                    <li>
+                      <a href="{% url 'p-category-post' product_ctg.name %}"
+                        >{{ product_ctg.name }}</a
+                      >
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Authors</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    {% for profiles in profile %}
+
+                    <li>
+                      <a href="#">{{ profiles.full_name }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
       </div>
     </div>
-  </nav>
 
-  <div class="container">
-
-    <div class="row">
-
-  {% block content %}
-    
-  {% endblock  %}
-
-    <!-- Sidebar Widgets Column -->
-    <div class="col-md-4">
-
-        <!-- Search Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">Search</h5>
-          <div class="card-body">
-            <form action="/blog/search" method="POST">
-              {% csrf_token %}
-            <div class="input-group">
-              <input type="text" class="form-control" name="search_keyword" id="s" type="submit" placeholder="Search for...">
-              <span class="input-group-append">
-                <button class="btn btn-secondary" id="s" type="submit" type="button">Go!</button>
-              </span>
-            </div>
-          </form>
-          </div>
-        </div>
-
-        <!-- Categories Widget For Blog -->
-        <div class="card my-4">
-          <h5 class="card-header">Blog Categories</h5>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-
-                <ul class="list-unstyled mb-0">
-                {% for ctg  in categories %}
-                  
-                  <li>
-                    <a href="{% url 'category-post' ctg.name %}">{{ ctg.name }}</a>
-                  </li>
-                {% endfor %} 
-                
-                </ul>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-
-         <!-- Categories Widget For Products -->
-         <div class="card my-4">
-          <h5 class="card-header">Product Categories</h5>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-
-                <ul class="list-unstyled mb-0">
-                {% for product_ctg  in p_ctg %}
-                  
-                  <li>
-                    <a href="#">{{ product_ctg.name }}</a>
-                  </li>
-                {% endfor %} 
-                
-                </ul>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-
-        <!-- Side Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">Authors</h5>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-
-                <ul class="list-unstyled mb-0">
-                {% for profiles  in profile %}
-                  
-                  <li>
-                    <a href="#">{{ profiles.full_name }}</a>
-                  </li>
-                {% endfor %} 
-                
-                </ul>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-        
-
-
-    </div>
-    <!-- /.row -->
-
-  </div>
-</div>
-
-  <!-- /.container -->
-
-
+    <!-- /.container -->
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">
-        <div class="container">
-          <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
-        </div>
-        <!-- /.container -->
-      </footer>
-    
-      <!-- Bootstrap core JavaScript -->
-      <script src="{% static 'jquery/jquery.min.js' %}"></script>
-      <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    
-    </body>
-    
-    </html>
-    
+      <div class="container">
+        <p class="m-0 text-center text-white">
+          Copyright &copy; Your Website 2020
+        </p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>
